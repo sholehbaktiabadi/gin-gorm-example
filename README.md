@@ -5,7 +5,7 @@
 ## Prepare credential vars
 
 ```bash
-rename .env.example to .env and input according to your own variable
+rename .env.example to .env then input values according your own variable
 ```
 
 ## Running the app
