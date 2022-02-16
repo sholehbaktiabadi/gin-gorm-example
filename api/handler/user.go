@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strconv"
 	"v1/api/response"
+	"v1/middleware"
 	"v1/user"
 
 	"github.com/gin-gonic/gin"
@@ -107,13 +108,37 @@ func (r HandlerUserReciever) GetAll(gin *gin.Context) {
 	gin.JSON(http.StatusOK, response.ResOK("success", res))
 }
 
+func (r HandlerUserReciever) Login(gin *gin.Context) {
+	var user = user.User{}
+	m := middleware.Middleware{}
+	err := gin.ShouldBindJSON(&user)
+	if err != nil {
+		gin.JSON(http.StatusUnprocessableEntity, response.ResErr(http.StatusUnprocessableEntity, err.Error()))
+		return
+	}
+	ok, err := r.user.Login(user)
+	if err != nil {
+		gin.JSON(http.StatusBadRequest, response.ResErr(http.StatusBadRequest, err.Error()))
+		return
+	}
+	res, err := m.JwtSign(ok.ID)
+	if err != nil {
+		gin.JSON(http.StatusUnauthorized, response.ResErr(http.StatusUnauthorized, err.Error()))
+		return
+	}
+	gin.JSON(http.StatusOK, response.ResOK("succee", res))
+	return
+}
+
 func (r HandlerUserReciever) Mount(routerGroup *gin.RouterGroup) {
+	m := middleware.Middleware{}
 	routerGroup.POST("/", r.Register)
-	routerGroup.GET("/email/:email", r.GetoneByEmail)
-	routerGroup.GET("/:id", r.Getone)
-	routerGroup.GET("/", r.GetAll)
-	routerGroup.PUT("/:id", r.Update)
-	routerGroup.DELETE("/:id", r.Delete)
+	routerGroup.POST("/login", r.Login)
+	routerGroup.GET("/email/:email", m.Authentication(), r.GetoneByEmail)
+	routerGroup.GET("/:id", m.Authentication(), r.Getone)
+	routerGroup.GET("/", m.Authentication(), r.GetAll)
+	routerGroup.PUT("/:id", m.Authentication(), r.Update)
+	routerGroup.DELETE("/:id", m.Authentication(), r.Delete)
 }
 
 func NewUserHandler(user user.Init) HandlerUserReciever {

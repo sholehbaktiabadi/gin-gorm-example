@@ -9,5 +9,4 @@ func (r userReciever) Update(obj User, id uint64) (User, error) {
 		return user, err
 	}
 	return user, nil
-
 }
