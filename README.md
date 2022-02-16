@@ -1,6 +1,12 @@
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="160" alt="Nest Logo" /></a>
+  <a href="http://nestjs.com/" target="blank"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/go/go-original.svg" width="80" height="80" alt="go" /></a>
 </p>
+
+## Prepare credential vars
+
+```bash
+rename .env.example to .env and input according to your own variable
+```
 
 ## Running the app
 
