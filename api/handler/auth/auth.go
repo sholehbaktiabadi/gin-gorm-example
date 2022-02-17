@@ -2,11 +2,11 @@ package handler
 
 import (
 	"net/http"
-	"v1/admin"
 	"v1/api/response"
 	"v1/helper"
 	"v1/middleware"
-	"v1/user"
+	"v1/repository/admin"
+	"v1/repository/user"
 
 	"github.com/gin-gonic/gin"
 )

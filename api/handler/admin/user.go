@@ -7,7 +7,7 @@ import (
 	"v1/api/response"
 	"v1/helper"
 	"v1/middleware"
-	"v1/user"
+	"v1/repository/user"
 
 	"github.com/gin-gonic/gin"
 )

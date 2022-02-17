@@ -2,9 +2,9 @@ package database
 
 import (
 	"fmt"
-	"v1/admin"
 	"v1/config"
-	"v1/user"
+	"v1/repository/admin"
+	"v1/repository/user"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
