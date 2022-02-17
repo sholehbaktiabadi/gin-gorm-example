@@ -14,6 +14,7 @@ func New(gorm gorm.DB) *gin.Engine {
 		userInit    = user.NewUser(&gorm)
 		userHandler = handler.NewUserHandler(userInit)
 	)
-	userHandler.Mount(router.Group(("user")))
+	userHandler.MountAuth(router.Group("auth"))
+	userHandler.MountUser(router.Group(("user")))
 	return router
 }
