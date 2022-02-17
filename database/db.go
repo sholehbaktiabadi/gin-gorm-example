@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+	"v1/admin"
 	"v1/config"
 	"v1/user"
 
@@ -23,6 +24,7 @@ func DatabaseConnection() (*gorm.DB, error) {
 		return nil, err
 	}
 	var user = user.User{}
-	db.AutoMigrate(&user)
+	var admin = admin.Admin{}
+	db.AutoMigrate(&user, &admin)
 	return db, nil
 }

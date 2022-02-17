@@ -1,7 +1,10 @@
 package api
 
 import (
-	"v1/api/handler"
+	"v1/admin"
+	adminhandler "v1/api/handler/admin"
+	authhandler "v1/api/handler/auth"
+	userhandler "v1/api/handler/user"
 	"v1/user"
 
 	"github.com/gin-gonic/gin"
@@ -10,11 +13,22 @@ import (
 
 func New(gorm gorm.DB) *gin.Engine {
 	var (
-		router      = gin.New()
-		userInit    = user.NewUser(&gorm)
-		userHandler = handler.NewUserHandler(userInit)
+		memberPrefix = "v1/"
+		adminPrefix  = "v1/admin"
+		router       = gin.New()
+		userInit     = user.NewUser(&gorm)
+		adminInit    = admin.NewAdmin(&gorm)
+		adminHandler = adminhandler.NewAdminUserHandler(userInit)
+		authHandler  = authhandler.NewAuthHandler(userInit, adminInit)
+		userHandler  = userhandler.NewUserHandler(userInit)
 	)
-	userHandler.MountAuth(router.Group("auth"))
-	userHandler.MountUser(router.Group("user"))
+
+	// admin routes
+	authHandler.AdminAuthRoutes(router.Group(adminPrefix + "/auth"))
+	adminHandler.AdminUserRoutes(router.Group(adminPrefix + "/user"))
+
+	// member routes
+	authHandler.UserAuthRoutes(router.Group(memberPrefix + "/auth"))
+	userHandler.UserHandler(router.Group(memberPrefix + "/user"))
 	return router
 }

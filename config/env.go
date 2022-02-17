@@ -21,6 +21,10 @@ func Env(name string) string {
 		return os.Getenv(name)
 	case "SERVER_PORT":
 		return os.Getenv(name)
+	case "JWT_SECRET":
+		return os.Getenv(name)
+	case "JWT_SECRET_ADMIN":
+		return os.Getenv(name)
 	default:
 		panic(name + " doesnt exist in file .env")
 	}
