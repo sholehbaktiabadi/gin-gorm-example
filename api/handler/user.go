@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 	"v1/api/response"
@@ -54,6 +56,16 @@ func (r HandlerUserReciever) GetoneByEmail(gin *gin.Context) {
 }
 
 func (r HandlerUserReciever) Getone(gin *gin.Context) {
+	token := gin.MustGet("user")
+	userByte, _ := json.Marshal(token)
+	var jwt = helper.JwtMap{}
+	err := json.Unmarshal(userByte, &jwt)
+	if err != nil {
+		gin.JSON(http.StatusBadRequest, response.ResErr(http.StatusBadRequest, err.Error()))
+		return
+	}
+	fmt.Println(jwt.Id)
+
 	param := gin.Param("id")
 	id, err := strconv.ParseUint(param, 10, 64)
 	if err != nil {

@@ -17,7 +17,7 @@ type Middleware struct {
 }
 
 func (m Middleware) JwtSign(id uint64) (string, error) {
-	ttl := 60 * time.Second
+	ttl := 1440 * time.Minute
 	var claims = jwt.MapClaims{}
 	claims["id"] = id
 	claims["exp"] = time.Now().UTC().Add(ttl).Unix()
@@ -48,12 +48,12 @@ func (m Middleware) Authentication() gin.HandlerFunc {
 			return secretKey, nil
 		})
 
-		if _, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-			return
+		if tokenClaims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+			ctx.Set("user", tokenClaims)
+			ctx.Next()
 		} else {
 			fmt.Println(err)
 			ctx.AbortWithStatusJSON(http.StatusUnauthorized, response.ResErr(http.StatusUnauthorized, err.Error()))
 		}
-		ctx.Next()
 	}
 }
