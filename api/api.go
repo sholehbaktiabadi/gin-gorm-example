@@ -1,11 +1,11 @@
 package api
 
 import (
-	"v1/admin"
 	adminhandler "v1/api/handler/admin"
 	authhandler "v1/api/handler/auth"
 	userhandler "v1/api/handler/user"
-	"v1/user"
+	"v1/repository/admin"
+	"v1/repository/user"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
