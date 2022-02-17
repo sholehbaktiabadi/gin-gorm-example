@@ -4,6 +4,7 @@ import "gorm.io/gorm"
 
 type Init interface {
 	Create(obj User) (User, error)
+	Login(obj User) (User, error)
 	GetoneByEmail(email string) (User, error)
 	Getone(id uint64) (User, error)
 	Update(obj User, id uint64) (User, error)

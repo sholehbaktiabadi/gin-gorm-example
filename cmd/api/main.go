@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 	"v1/api"
+	"v1/config"
 	"v1/database"
 )
 
@@ -14,7 +15,7 @@ func main() {
 	var (
 		api    = api.New(*db)
 		server = http.Server{
-			Addr:    ":9090",
+			Addr:    ":" + config.Env("SERVER_PORT"),
 			Handler: api,
 		}
 	)

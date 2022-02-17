@@ -1,6 +1,6 @@
-package user
+package admin
 
-func (r userReciever) Create(obj User) (User, error) {
+func (r adminReciever) Create(obj Admin) (Admin, error) {
 	if err := r.gorm.Create(&obj).Error; err != nil {
 		return obj, err
 	}
