@@ -1,4 +1,4 @@
-<p align="center">
+<p align="left">
   <a href="http://nestjs.com/" target="blank"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/go/go-original.svg" width="80" height="80" alt="go" /></a>
 </p>
 
